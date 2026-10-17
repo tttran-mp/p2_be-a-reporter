@@ -105,6 +105,7 @@
 
     <main class="max-w-5xl mx-auto px-4 mt-6 flex-grow w-full space-y-8">
 
+        <!-- Step 1 Card: Selection -->
         <section id="step-1-card" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-indigo-200 relative overflow-hidden transition-all duration-300">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-100 rounded-full blur-2xl pointer-events-none"></div>
 
@@ -160,6 +161,7 @@
             </div>
         </section>
 
+        <!-- Step 2 Section: TV Scene Broadcast & Input -->
         <section id="step-2-section" class="space-y-6 hidden transition-all duration-500">
             
             <div class="tv-frame rounded-3xl p-4 sm:p-6 text-white border-4 border-slate-700 relative shadow-2xl">
@@ -170,7 +172,7 @@
                             <i class="fa-solid font-black fa-circle text-[8px] animate-ping"></i> LKTV BREAKING NEWS
                         </span>
                         <span id="location-badge" class="bg-slate-800 text-yellow-300 text-xs px-3 py-1 rounded-md font-bold border border-slate-700">
-                            Location: Classroom
+                            Location: Playground
                         </span>
                     </div>
                     <div class="text-slate-400 text-xs font-mono hidden sm:block">
@@ -180,7 +182,7 @@
 
                 <!-- Generated Scene Container -->
                 <div class="relative rounded-2xl overflow-hidden bg-slate-900 border-2 border-slate-700 aspect-video flex items-center justify-center shadow-inner">
-                    <!-- Dynamic Interactive Scene Canvas -->
+                    <!-- Dynamic Vector Interactive Scene Canvas -->
                     <canvas id="scene-canvas" class="w-full h-full object-cover block"></canvas>
 
                     <!-- Studio Overlay Frame -->
@@ -266,16 +268,11 @@
                 </p>
             </div>
 
-            <!-- Success Image Asset Badge -->
-            <div class="relative rounded-2xl overflow-hidden border-2 border-amber-300 shadow bg-gradient-to-br from-amber-50 to-orange-100 p-2 flex flex-col items-center justify-center">
-                <img src="https://placehold.co/400x250/10b981/ffffff?text=LKTV+Verified+Headline!" 
-                     alt="Success Broadcast" 
-                     id="success-modal-asset"
-                     onerror="this.src='https://placehold.co/400x250/fef3c7/b45309?text=LKTV+Star+Reporter!'" 
-                     class="rounded-xl w-full h-40 object-cover border border-amber-200 shadow-inner">
-                <div class="text-[11px] font-bold text-amber-800 mt-1 flex items-center gap-1">
-                    <i class="fa-solid font-black fa-award text-yellow-600"></i> LKTV Official Headline Verified
-                </div>
+            <!-- Success Verification Badge -->
+            <div class="relative rounded-2xl overflow-hidden border-2 border-amber-300 shadow bg-gradient-to-br from-amber-100 via-amber-50 to-orange-100 p-6 flex flex-col items-center justify-center text-amber-900">
+                <i class="fa-solid fa-award text-5xl text-yellow-500 mb-2 drop-shadow"></i>
+                <div class="font-black text-lg">LKTV VERIFIED HEADLINE</div>
+                <p class="text-xs font-semibold text-amber-700 mt-1">100% Present Continuous Accuracy!</p>
             </div>
 
             <div class="pt-2 flex flex-col sm:flex-row gap-3">
@@ -313,17 +310,17 @@
             { base: "sleep", ing: "sleeping" }
         ];
 
-        // School Locations & Assigned Image Files
+        // School Locations & Settings
         const LOCATIONS = [
-            { name: "playground", prep: "in", type: "place", file: "playground.jpg", bgHue: "#38bdf8" },
-            { name: "hall", prep: "in", type: "room", file: "hall.jfif", bgHue: "#f59e0b" },
-            { name: "classroom", prep: "in", type: "room", file: "classroom.jfif", bgHue: "#10b981" },
-            { name: "library", prep: "in", type: "room", file: "library.jfif", bgHue: "#8b5cf6" },
-            { name: "1/F", prep: "on", type: "floor", file: "first floor.jpg", bgHue: "#ec4899", altNames: ["1/f", "first floor", "1st floor"] },
-            { name: "2/F", prep: "on", type: "floor", file: "second floor.jpg", bgHue: "#f97316", altNames: ["2/f", "second floor", "2nd floor"] },
-            { name: "3/F", prep: "on", type: "floor", file: "third floor.jpeg", bgHue: "#06b6d4", altNames: ["3/f", "third floor", "3rd floor"] },
-            { name: "computer room", prep: "in", type: "room", file: "computer room.jpg", bgHue: "#3b82f6" },
-            { name: "music room", prep: "in", type: "room", file: "music room.jpg", bgHue: "#a855f7" }
+            { name: "playground", prep: "in", type: "place", keyObject: "Basketball hoop & court lines" },
+            { name: "hall", prep: "in", type: "room", keyObject: "Stage curtain & auditorium seats" },
+            { name: "classroom", prep: "in", type: "room", keyObject: "Whiteboard & student desks" },
+            { name: "library", prep: "in", type: "room", keyObject: "Bookcases & colorful storybooks" },
+            { name: "1/F", prep: "on", type: "floor", altNames: ["1/f", "first floor", "1st floor"], keyObject: "Large '1/F' wall sign & balcony" },
+            { name: "2/F", prep: "on", type: "floor", altNames: ["2/f", "second floor", "2nd floor"], keyObject: "Large '2/F' wall sign & balcony" },
+            { name: "3/F", prep: "on", type: "floor", altNames: ["3/f", "third floor", "3rd floor"], keyObject: "Large '3/F' wall sign & balcony" },
+            { name: "computer room", prep: "in", type: "room", keyObject: "Computer monitors & glowing screens" },
+            { name: "music room", prep: "in", type: "room", keyObject: "Upright piano, guitars & music notes" }
         ];
 
         // Current Game State
@@ -331,8 +328,6 @@
         let selectedVerb = VERBS[0];
         let currentLocation = LOCATIONS[0];
         let animationFrameId = null;
-        let bgImgElement = null;
-        let bgImgLoaded = false;
 
         window.addEventListener('DOMContentLoaded', () => {
             initCharacterChips();
@@ -445,17 +440,6 @@
             // Update UI Location Badge
             document.getElementById('location-badge').textContent = `Location: ${currentLocation.name.toUpperCase()}`;
 
-            // Preload the target location image file
-            bgImgLoaded = false;
-            bgImgElement = new Image();
-            bgImgElement.onload = () => {
-                bgImgLoaded = true;
-            };
-            bgImgElement.onerror = () => {
-                bgImgLoaded = false;
-            };
-            bgImgElement.src = currentLocation.file;
-
             // Show Step 2 Section
             const step2Sec = document.getElementById('step-2-section');
             step2Sec.classList.remove('hidden');
@@ -489,18 +473,11 @@
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                // 1. Draw Selected Location Image (or fallback vector artwork)
-                if (bgImgLoaded && bgImgElement && bgImgElement.complete) {
-                    ctx.drawImage(bgImgElement, 0, 0, canvas.width, canvas.height);
-                    // Light overlay so animated foreground characters pop out clearly
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                } else {
-                    drawSchoolBackground(ctx, canvas.width, canvas.height, currentLocation);
-                }
+                // 1. Draw Vector Background with Location Key Objects
+                drawLocationVectorBackground(ctx, canvas.width, canvas.height, currentLocation.name);
 
-                // 2. Draw Character Performing Action in Foreground
-                drawCharacterAction(ctx, canvas.width, canvas.height, selectedCharacter, selectedVerb.base, elapsedTime);
+                // 2. Draw Characters Performing Action with Props
+                drawCharactersInForeground(ctx, canvas.width, canvas.height, selectedCharacter, selectedVerb.base, elapsedTime);
 
                 animationFrameId = requestAnimationFrame(animate);
             }
@@ -508,26 +485,354 @@
             animate();
         }
 
-        function drawSchoolBackground(ctx, w, h, location) {
-            const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-            bgGrad.addColorStop(0, location.bgHue);
-            bgGrad.addColorStop(0.7, '#f8fafc');
-            bgGrad.addColorStop(1, '#e2e8f0');
-            ctx.fillStyle = bgGrad;
-            ctx.fillRect(0, 0, w, h);
-
-            ctx.fillStyle = '#cbd5e1';
-            ctx.fillRect(0, h * 0.75, w, h * 0.25);
-
-            ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(0, h * 0.75);
-            ctx.lineTo(w, h * 0.75);
-            ctx.stroke();
+        function drawLocationVectorBackground(ctx, w, h, locName) {
+            ctx.save();
+            switch (locName) {
+                case "playground":
+                    drawPlaygroundBackground(ctx, w, h);
+                    break;
+                case "hall":
+                    drawHallBackground(ctx, w, h);
+                    break;
+                case "classroom":
+                    drawClassroomBackground(ctx, w, h);
+                    break;
+                case "library":
+                    drawLibraryBackground(ctx, w, h);
+                    break;
+                case "1/F":
+                    drawFloorBackground(ctx, w, h, "1/F", "#eab308");
+                    break;
+                case "2/F":
+                    drawFloorBackground(ctx, w, h, "2/F", "#f97316");
+                    break;
+                case "3/F":
+                    drawFloorBackground(ctx, w, h, "3/F", "#06b6d4");
+                    break;
+                case "computer room":
+                    drawComputerRoomBackground(ctx, w, h);
+                    break;
+                case "music room":
+                    drawMusicRoomBackground(ctx, w, h);
+                    break;
+                default:
+                    drawClassroomBackground(ctx, w, h);
+            }
+            ctx.restore();
         }
 
-        function drawCharacterAction(ctx, w, h, charName, verbBase, time) {
+        // 1. PLAYGROUND: Basketball court & hoop
+        function drawPlaygroundBackground(ctx, w, h) {
+            // Sky
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.6);
+            skyGrad.addColorStop(0, '#38bdf8');
+            skyGrad.addColorStop(1, '#bae6fd');
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, w, h * 0.6);
+
+            // Sun & Clouds
+            ctx.fillStyle = '#fef08a';
+            ctx.beginPath(); ctx.arc(w - 70, 60, 35, 0, Math.PI * 2); ctx.fill();
+
+            // School Building Wall in Background
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fillRect(0, h * 0.3, w, h * 0.3);
+            ctx.fillStyle = '#cbd5e1';
+            for (let x = 30; x < w; x += 90) {
+                ctx.fillRect(x, h * 0.33, 50, 60); // Windows
+            }
+
+            // Basketball Court Ground
+            ctx.fillStyle = '#2563eb'; // Blue acrylic court
+            ctx.fillRect(0, h * 0.6, w, h * 0.4);
+
+            // Court markings
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(w / 2, h * 0.8, 70, 0, Math.PI * 2);
+            ctx.moveTo(0, h * 0.8); ctx.lineTo(w, h * 0.8);
+            ctx.stroke();
+
+            // Basketball Hoop (Key Object)
+            ctx.save();
+            ctx.translate(w * 0.82, h * 0.25);
+            // Pole
+            ctx.fillStyle = '#475569';
+            ctx.fillRect(-6, 0, 12, h * 0.45);
+            // Backboard
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 3;
+            ctx.fillRect(-45, -40, 90, 65);
+            ctx.strokeRect(-45, -40, 90, 65);
+            ctx.strokeRect(-18, -10, 36, 26);
+            // Rim & Net
+            ctx.strokeStyle = '#ea580c';
+            ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.arc(0, 15, 18, 0, Math.PI); ctx.stroke();
+            ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-18, 15); ctx.lineTo(-10, 45); ctx.lineTo(10, 45); ctx.lineTo(18, 15);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // 2. HALL: Stage curtain & seating
+        function drawHallBackground(ctx, w, h) {
+            // Background Wall
+            ctx.fillStyle = '#78350f';
+            ctx.fillRect(0, 0, w, h);
+
+            // Wooden Stage Floor
+            const floorGrad = ctx.createLinearGradient(0, h * 0.5, 0, h);
+            floorGrad.addColorStop(0, '#d97706');
+            floorGrad.addColorStop(1, '#92400e');
+            ctx.fillStyle = floorGrad;
+            ctx.fillRect(0, h * 0.5, w, h * 0.5);
+
+            // Stage Planking Lines
+            ctx.strokeStyle = '#78350f';
+            ctx.lineWidth = 2;
+            for (let x = 0; x < w; x += 60) {
+                ctx.beginPath(); ctx.moveTo(x, h * 0.5); ctx.lineTo(x - 30, h); ctx.stroke();
+            }
+
+            // Big Stage Red Curtain (Key Object)
+            ctx.fillStyle = '#b91c1c';
+            // Left Curtain
+            ctx.beginPath();
+            ctx.moveTo(0, 0); ctx.lineTo(180, 0); ctx.quadraticCurveTo(120, h * 0.3, 160, h * 0.5);
+            ctx.lineTo(0, h * 0.5); ctx.fill();
+            // Right Curtain
+            ctx.beginPath();
+            ctx.moveTo(w, 0); ctx.lineTo(w - 180, 0); ctx.quadraticCurveTo(w - 120, h * 0.3, w - 160, h * 0.5);
+            ctx.lineTo(w, h * 0.5); ctx.fill();
+            // Top Valance
+            for (let x = 0; x < w; x += 80) {
+                ctx.beginPath(); ctx.arc(x + 40, 0, 45, 0, Math.PI); ctx.fill();
+            }
+
+            // Spotlight Rays
+            ctx.fillStyle = 'rgba(254, 240, 138, 0.2)';
+            ctx.beginPath(); ctx.moveTo(w * 0.3, 0); ctx.lineTo(w * 0.1, h * 0.8); ctx.lineTo(w * 0.5, h * 0.8); ctx.fill();
+            ctx.beginPath(); ctx.moveTo(w * 0.7, 0); ctx.lineTo(w * 0.5, h * 0.8); ctx.lineTo(w * 0.9, h * 0.8); ctx.fill();
+        }
+
+        // 3. CLASSROOM: Whiteboard, desks & clock
+        function drawClassroomBackground(ctx, w, h) {
+            // Wall
+            ctx.fillStyle = '#ecfdf5';
+            ctx.fillRect(0, 0, w, h * 0.65);
+
+            // Floor
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillRect(0, h * 0.65, w, h * 0.35);
+
+            // Big Whiteboard (Key Object)
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 6;
+            ctx.fillRect(w * 0.15, 30, w * 0.7, 170);
+            ctx.strokeRect(w * 0.15, 30, w * 0.7, 170);
+
+            // Writing on Board
+            ctx.fillStyle = '#2563eb';
+            ctx.font = 'bold 22px Fredoka, sans-serif';
+            ctx.fillText("Welcome to LKTV Class! ✏️", w * 0.22, 75);
+            ctx.fillStyle = '#059669';
+            ctx.font = 'bold 18px Fredoka, sans-serif';
+            ctx.fillText("Grammar: Subject + is/are + Verb-ing", w * 0.22, 120);
+
+            // Wall Clock
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.arc(w * 0.9, 50, 24, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(w * 0.9, 50); ctx.lineTo(w * 0.9, 36); ctx.moveTo(w * 0.9, 50); ctx.lineTo(w * 0.9 + 10, 50); ctx.stroke();
+
+            // Student Desks in Background
+            ctx.fillStyle = '#b45309';
+            ctx.fillRect(80, h * 0.62, 120, 25);
+            ctx.fillRect(w - 200, h * 0.62, 120, 25);
+            ctx.fillStyle = '#475569';
+            ctx.fillRect(90, h * 0.65, 8, 40); ctx.fillRect(180, h * 0.65, 8, 40);
+            ctx.fillRect(w - 190, h * 0.65, 8, 40); ctx.fillRect(w - 100, h * 0.65, 8, 40);
+        }
+
+        // 4. LIBRARY: Bookcases packed with colorful books
+        function drawLibraryBackground(ctx, w, h) {
+            // Wall & Floor
+            ctx.fillStyle = '#fef3c7';
+            ctx.fillRect(0, 0, w, h * 0.7);
+            ctx.fillStyle = '#78350f';
+            ctx.fillRect(0, h * 0.7, w, h * 0.3);
+
+            // Large Bookcase Left (Key Object)
+            drawBookcase(ctx, 20, 20, 220, h * 0.65);
+            // Large Bookcase Right
+            drawBookcase(ctx, w - 240, 20, 220, h * 0.65);
+
+            // Cozy Wall Decor
+            ctx.fillStyle = '#d97706';
+            ctx.font = 'bold 20px Fredoka, sans-serif';
+            ctx.fillText("📚 Quiet Reading Corner", w * 0.32, 50);
+        }
+
+        function drawBookcase(ctx, x, y, width, height) {
+            ctx.fillStyle = '#854d0e';
+            ctx.fillRect(x, y, width, height);
+            ctx.fillStyle = '#a16207';
+            ctx.fillRect(x + 8, y + 8, width - 16, height - 16);
+
+            const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+            let shelfH = height / 3;
+
+            for (let s = 0; s < 3; s++) {
+                let sy = y + 10 + s * shelfH;
+                ctx.fillStyle = '#78350f';
+                ctx.fillRect(x + 8, sy + shelfH - 12, width - 16, 12); // Shelf board
+
+                let bx = x + 16;
+                while (bx < x + width - 25) {
+                    let bw = 12 + Math.random() * 10;
+                    let bh = shelfH - 25 - Math.random() * 15;
+                    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                    ctx.fillRect(bx, sy + shelfH - 12 - bh, bw, bh);
+                    bx += bw + 3;
+                }
+            }
+        }
+
+        // 5. FLOOR HALLWAYS (1/F, 2/F, 3/F): Yellow wall, balcony railing & BIG floor plaque sign
+        function drawFloorBackground(ctx, w, h, floorLabel, themeColor) {
+            // Wall
+            ctx.fillStyle = '#fef08a';
+            ctx.fillRect(0, 0, w, h * 0.65);
+
+            // Tiled Corridor Floor
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillRect(0, h * 0.65, w, h * 0.35);
+
+            // Tile Perspective Lines
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 2;
+            for (let x = 0; x < w; x += 50) {
+                ctx.beginPath(); ctx.moveTo(x, h * 0.65); ctx.lineTo(x - 40, h); ctx.stroke();
+            }
+
+            // Balcony Railing in Background
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 6;
+            ctx.beginPath(); ctx.moveTo(0, h * 0.45); ctx.lineTo(w, h * 0.45); ctx.stroke();
+            for (let rx = 30; rx < w; rx += 40) {
+                ctx.beginPath(); ctx.moveTo(rx, h * 0.45); ctx.lineTo(rx, h * 0.65); ctx.stroke();
+            }
+
+            // Pillar with Prominent Floor Sign (Key Object)
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillRect(w * 0.68, 0, 110, h * 0.65);
+            ctx.strokeStyle = '#d97706'; ctx.lineWidth = 4;
+            ctx.strokeRect(w * 0.68, 0, 110, h * 0.65);
+
+            // Large Floor Sign Board
+            ctx.fillStyle = themeColor;
+            ctx.fillRect(w * 0.70, 40, 76, 76);
+            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4;
+            ctx.strokeRect(w * 0.70, 40, 76, 76);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'black 36px Fredoka, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(floorLabel, w * 0.70 + 38, 92);
+            ctx.textAlign = 'left';
+        }
+
+        // 6. COMPUTER ROOM: Computer monitors & blue screens
+        function drawComputerRoomBackground(ctx, w, h) {
+            // Wall
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, w, h * 0.65);
+
+            // Carpet Floor
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(0, h * 0.65, w, h * 0.35);
+
+            // Long Computer Desk
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(30, h * 0.5, w - 60, h * 0.18);
+
+            // Computers (Key Objects)
+            let compX = [60, 230, 400, 570];
+            compX.forEach((cx) => {
+                // Monitor Stand
+                ctx.fillStyle = '#64748b';
+                ctx.fillRect(cx + 35, h * 0.46, 18, 20);
+                ctx.fillRect(cx + 20, h * 0.49, 48, 6);
+
+                // Monitor Frame
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(cx, h * 0.22, 88, 62);
+
+                // Glowing Screen
+                ctx.fillStyle = '#38bdf8';
+                ctx.fillRect(cx + 5, h * 0.24, 78, 52);
+
+                // Screen Details / Code lines
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(cx + 12, h * 0.28, 40, 4);
+                ctx.fillRect(cx + 12, h * 0.34, 55, 4);
+                ctx.fillRect(cx + 12, h * 0.40, 30, 4);
+
+                // Keyboard
+                ctx.fillStyle = '#475569';
+                ctx.fillRect(cx + 10, h * 0.52, 68, 12);
+            });
+        }
+
+        // 7. MUSIC ROOM: Upright Piano, guitars & music notes
+        function drawMusicRoomBackground(ctx, w, h) {
+            // Wall
+            ctx.fillStyle = '#fdf4ff';
+            ctx.fillRect(0, 0, w, h * 0.65);
+
+            // Floor
+            ctx.fillStyle = '#a855f7';
+            ctx.fillRect(0, h * 0.65, w, h * 0.35);
+
+            // Upright Piano (Key Object)
+            ctx.save();
+            ctx.translate(50, h * 0.2);
+            // Main Body
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, 160, 190);
+            // Keybed
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(-10, 100, 180, 25);
+            // White Keys
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(-8, 110, 176, 14);
+            // Black Keys
+            ctx.fillStyle = '#000000';
+            for (let k = 0; k < 160; k += 16) {
+                if (k % 48 !== 32) ctx.fillRect(k, 110, 9, 8);
+            }
+            ctx.restore();
+
+            // Guitars on Wall Stand (Key Object)
+            ctx.fillStyle = '#b45309';
+            ctx.beginPath(); ctx.ellipse(w - 120, h * 0.35, 22, 32, 0, 0, Math.PI * 2); ctx.fill();
+            ctx.fillRect(w - 124, h * 0.15, 8, 70); // Neck
+
+            // Floating Music Notes on Wall Decor
+            ctx.fillStyle = '#c084fc';
+            ctx.font = '28px Fredoka, sans-serif';
+            ctx.fillText("🎵  🎶  ♩  ♪", w * 0.38, 80);
+            ctx.fillText("♫  ♪  🎶", w * 0.52, 130);
+        }
+
+        function drawCharactersInForeground(ctx, w, h, charName, verbBase, time) {
             ctx.save();
 
             const isGroup = isPluralSubject(charName);
@@ -539,16 +844,19 @@
                 let bounceY = 0;
                 let armAngle = 0;
 
+                // Action Movements Logic
                 if (verbBase === 'jump') {
-                    bounceY = Math.abs(Math.sin(time * 6 + i)) * 35;
+                    bounceY = Math.abs(Math.sin(time * 6 + i)) * 40;
                 } else if (verbBase === 'dance') {
                     bounceY = Math.sin(time * 8 + i) * 12;
                     armAngle = Math.sin(time * 8 + i) * 0.6;
-                } else if (verbBase === 'run' || verbBase === 'walk') {
-                    x += Math.sin(time * 3 + i) * 30;
-                    armAngle = Math.cos(time * 6) * 0.8;
+                } else if (verbBase === 'run') {
+                    x += Math.sin(time * 5 + i) * 45;
+                    bounceY = Math.abs(Math.sin(time * 10)) * 10;
+                } else if (verbBase === 'walk') {
+                    x += Math.sin(time * 2.5 + i) * 25;
                 } else if (verbBase === 'fly') {
-                    bounceY = 40 + Math.sin(time * 4) * 20;
+                    bounceY = 35 + Math.sin(time * 4) * 20;
                 } else if (verbBase === 'sleep') {
                     bounceY = -15;
                 }
@@ -559,14 +867,19 @@
                 const cLower = charName.toLowerCase();
 
                 if (cLower.includes('cat')) {
-                    drawCuteCat(ctx, verbBase, armAngle, time);
+                    drawCuteCat(ctx, verbBase, time);
                 } else if (cLower.includes('dog')) {
-                    drawCuteDog(ctx, verbBase, armAngle, time);
+                    drawCuteDog(ctx, verbBase, time);
                 } else if (cLower.includes('bird')) {
                     drawCuteBird(ctx, verbBase, time);
                 } else {
-                    const kidColor = i === 0 ? '#3b82f6' : '#ec4899';
-                    drawCuteKid(ctx, verbBase, armAngle, time, kidColor);
+                    // Determine Gender Visuals:
+                    // Girl characters: Anna, Bella, "The girls"
+                    // Boy characters: Leo, Felix, "The boys"
+                    let isGirl = cLower.includes('anna') || cLower.includes('bella') || cLower.includes('girl') || (isGroup && i === 1);
+                    if (cLower.includes('boy')) isGirl = false;
+
+                    drawHumanCharacter(ctx, verbBase, armAngle, time, isGirl, charName, i);
                 }
 
                 ctx.restore();
@@ -575,106 +888,184 @@
             ctx.restore();
         }
 
-        function drawCuteKid(ctx, verb, armAngle, time, shirtColor) {
-            // Shadow
+        // Distinct Human Character Renderer (Boy vs Girl + Props in Hand)
+        function drawHumanCharacter(ctx, verb, armAngle, time, isGirl, charName, index) {
+            // Shadow on floor
             ctx.fillStyle = 'rgba(0,0,0,0.2)';
             ctx.beginPath();
-            ctx.ellipse(0, 25, 25, 8, 0, 0, Math.PI * 2);
+            ctx.ellipse(0, 28, 28, 8, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Legs
+            // Legs & Shoes
             ctx.strokeStyle = '#1e293b';
-            ctx.lineWidth = 6;
+            ctx.lineWidth = 7;
             ctx.lineCap = 'round';
 
             if (verb === 'run') {
-                ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(-18, 20); ctx.stroke();
-                ctx.beginPath(); ctx.moveTo(6, 0); ctx.lineTo(18, 20); ctx.stroke();
+                let legAngle = Math.sin(time * 10) * 0.8;
+                ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(-6 - Math.sin(legAngle) * 20, 22); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(6, 0); ctx.lineTo(6 + Math.sin(legAngle) * 20, 22); ctx.stroke();
+            } else if (verb === 'dance') {
+                ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(-14, 22); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(8, 0); ctx.lineTo(14, 22); ctx.stroke();
             } else {
                 ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(-8, 22); ctx.stroke();
                 ctx.beginPath(); ctx.moveTo(8, 0); ctx.lineTo(8, 22); ctx.stroke();
             }
 
-            // Body / Shirt
-            ctx.fillStyle = shirtColor;
-            ctx.beginPath();
-            ctx.roundRect(-16, -30, 32, 32, 8);
-            ctx.fill();
+            // Clothing Color Selection
+            let shirtColor = isGirl ? (index === 0 ? '#ec4899' : '#f59e0b') : (index === 0 ? '#2563eb' : '#10b981');
 
-            // Arms
+            if (isGirl) {
+                // GIRL: Dress/Skirt Visuals
+                ctx.fillStyle = shirtColor;
+                ctx.beginPath();
+                ctx.moveTo(-14, -32); ctx.lineTo(14, -32); ctx.lineTo(20, 2); ctx.lineTo(-20, 2);
+                ctx.closePath(); ctx.fill();
+            } else {
+                // BOY: T-Shirt & Shorts
+                ctx.fillStyle = shirtColor;
+                ctx.beginPath(); ctx.roundRect(-16, -32, 32, 28, 6); ctx.fill();
+                ctx.fillStyle = '#334155'; // Shorts
+                ctx.fillRect(-14, -4, 28, 10);
+            }
+
+            // Head & Skin
+            ctx.fillStyle = '#ffedd5';
+            ctx.beginPath(); ctx.arc(0, -52, 20, 0, Math.PI * 2); ctx.fill();
+
+            // Eyes & Expression
+            ctx.fillStyle = '#0f172a';
+            if (verb === 'sleep') {
+                // Closed sleeping eyes
+                ctx.lineWidth = 2; ctx.strokeStyle = '#0f172a';
+                ctx.beginPath(); ctx.arc(-6, -52, 3, Math.PI, 0); ctx.stroke();
+                ctx.beginPath(); ctx.arc(6, -52, 3, Math.PI, 0); ctx.stroke();
+            } else {
+                ctx.beginPath(); ctx.arc(-6, -54, 3, 0, Math.PI * 2); ctx.arc(6, -54, 3, 0, Math.PI * 2); ctx.fill();
+            }
+
+            // Mouth
+            ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 2;
+            ctx.beginPath();
+            if (verb === 'sing' || verb === 'talk' || verb === 'chat') {
+                ctx.arc(0, -46, 5, 0, Math.PI * 2); ctx.fillStyle = '#ef4444'; ctx.fill(); // Open singing mouth
+            } else {
+                ctx.arc(0, -48, 6, 0.1, Math.PI - 0.1); // Smile
+            }
+            ctx.stroke();
+
+            // Distinct Hairstyles (Boy vs Girl)
+            if (isGirl) {
+                // GIRL HAIRSTYLE: Long hair / Pigtails with bows
+                ctx.fillStyle = '#b45309'; // Ginger/brown hair
+                ctx.beginPath(); ctx.arc(0, -58, 22, Math.PI * 0.8, Math.PI * 2.2); ctx.fill();
+                // Pigtails
+                ctx.beginPath(); ctx.arc(-22, -50, 10, 0, Math.PI * 2); ctx.arc(22, -50, 10, 0, Math.PI * 2); ctx.fill();
+                // Hair Bows
+                ctx.fillStyle = '#f43f5e';
+                ctx.fillRect(-24, -62, 6, 6); ctx.fillRect(18, -62, 6, 6);
+            } else {
+                // BOY HAIRSTYLE: Short Spiky or Wavy Hair
+                ctx.fillStyle = charName.toLowerCase().includes('felix') ? '#eab308' : '#451a03';
+                ctx.beginPath();
+                ctx.arc(0, -58, 21, Math.PI, Math.PI * 2); ctx.fill();
+                // Spikes
+                ctx.beginPath();
+                ctx.moveTo(-15, -68); ctx.lineTo(-10, -78); ctx.lineTo(-5, -70);
+                ctx.lineTo(0, -80); ctx.lineTo(5, -70); ctx.lineTo(10, -78); ctx.lineTo(15, -68);
+                ctx.fill();
+            }
+
+            // ACTION PROPS IN HAND & ARMS
             ctx.strokeStyle = shirtColor;
             ctx.lineWidth = 6;
-            ctx.beginPath();
-            ctx.moveTo(-16, -22);
-            ctx.lineTo(-28, -22 + Math.sin(time * 6) * 15);
-            ctx.moveTo(16, -22);
-            ctx.lineTo(28, -22 - Math.sin(time * 6) * 15);
-            ctx.stroke();
-
-            // Head
-            ctx.fillStyle = '#ffedd5';
-            ctx.beginPath();
-            ctx.arc(0, -50, 20, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Eyes & Smile
-            ctx.fillStyle = '#0f172a';
-            ctx.beginPath();
-            ctx.arc(-6, -52, 2.5, 0, Math.PI * 2);
-            ctx.arc(6, -52, 2.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.strokeStyle = '#0f172a';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(0, -46, 6, 0.1, Math.PI - 0.1);
-            ctx.stroke();
-
-            // Hair
-            ctx.fillStyle = '#b45309';
-            ctx.beginPath();
-            ctx.arc(0, -56, 21, Math.PI, Math.PI * 2);
-            ctx.fill();
 
             if (verb === 'sing') {
-                ctx.fillStyle = '#64748b';
-                ctx.fillRect(20, -45, 4, 12);
-                ctx.fillStyle = '#f59e0b';
-                ctx.beginPath(); ctx.arc(22, -48, 5, 0, Math.PI * 2); ctx.fill();
-            } else if (verb === 'read') {
-                ctx.fillStyle = '#ef4444';
-                ctx.fillRect(-12, -20, 24, 16);
+                // Arm holding Microphone
+                ctx.beginPath(); ctx.moveTo(14, -24); ctx.lineTo(24, -40); ctx.stroke();
+                // Microphone
+                ctx.fillStyle = '#475569'; ctx.fillRect(22, -48, 6, 12);
+                ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.arc(25, -50, 6, 0, Math.PI * 2); ctx.fill();
+                // Floating Notes
+                ctx.fillStyle = '#ec4899'; ctx.font = '16px Fredoka, sans-serif';
+                ctx.fillText("🎵", 32, -55 + Math.sin(time * 6) * 5);
+            } 
+            else if (verb === 'read') {
+                // Arms holding open storybook
+                ctx.beginPath(); ctx.moveTo(-14, -24); ctx.lineTo(-8, -18); ctx.moveTo(14, -24); ctx.lineTo(8, -18); ctx.stroke();
+                // Open Book Prop
+                ctx.fillStyle = '#ef4444'; ctx.fillRect(-20, -22, 40, 20);
+                ctx.fillStyle = '#ffffff'; ctx.fillRect(-18, -20, 17, 16); ctx.fillRect(1, -20, 17, 16);
+            }
+            else if (verb === 'paint') {
+                // Left hand holds Palette, Right holds Brush
+                ctx.beginPath(); ctx.moveTo(-14, -24); ctx.lineTo(-26, -20); ctx.moveTo(14, -24); ctx.lineTo(26, -30); ctx.stroke();
+                // Palette
+                ctx.fillStyle = '#d97706'; ctx.beginPath(); ctx.ellipse(-30, -18, 12, 8, 0, 0, Math.PI * 2); ctx.fill();
+                // Paintbrush
+                ctx.fillStyle = '#78350f'; ctx.fillRect(26, -38, 4, 16);
+                ctx.fillStyle = '#3b82f6'; ctx.beginPath(); ctx.arc(28, -40, 4, 0, Math.PI * 2); ctx.fill();
+            }
+            else if (verb === 'eat') {
+                // Arm holding Sandwich near mouth
+                ctx.beginPath(); ctx.moveTo(14, -24); ctx.lineTo(12, -42); ctx.stroke();
+                // Sandwich
+                ctx.fillStyle = '#f59e0b'; ctx.beginPath(); ctx.moveTo(8, -48); ctx.lineTo(20, -48); ctx.lineTo(14, -38); ctx.closePath(); ctx.fill();
+            }
+            else if (verb === 'play') {
+                // Arms holding Basketball
+                ctx.beginPath(); ctx.moveTo(-14, -24); ctx.lineTo(-8, -12); ctx.moveTo(14, -24); ctx.lineTo(8, -12); ctx.stroke();
+                // Basketball
+                ctx.fillStyle = '#ea580c'; ctx.beginPath(); ctx.arc(0, -8, 12, 0, Math.PI * 2); ctx.fill();
+            }
+            else if (verb === 'sleep') {
+                // Zzz Bubbles
+                ctx.fillStyle = '#8b5cf6'; ctx.font = 'bold 18px Fredoka, sans-serif';
+                ctx.fillText("Z z z...", 18, -65 + Math.sin(time * 3) * 5);
+            }
+            else {
+                // Standard Arm Pose
+                ctx.beginPath();
+                ctx.moveTo(-14, -24); ctx.lineTo(-24, -12 + Math.sin(time * 6) * 10);
+                ctx.moveTo(14, -24); ctx.lineTo(24, -12 - Math.sin(time * 6) * 10);
+                ctx.stroke();
             }
         }
 
-        function drawCuteCat(ctx, verb, armAngle, time) {
+        // Cute Animals Drawing Helpers
+        function drawCuteCat(ctx, verb, time) {
             ctx.fillStyle = '#f97316';
             ctx.beginPath(); ctx.ellipse(0, -10, 18, 14, 0, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath(); ctx.arc(0, -28, 14, 0, Math.PI * 2); ctx.fill();
+            // Ears
             ctx.beginPath(); ctx.moveTo(-10, -36); ctx.lineTo(-16, -48); ctx.lineTo(-4, -38); ctx.fill();
             ctx.beginPath(); ctx.moveTo(10, -36); ctx.lineTo(16, -48); ctx.lineTo(4, -38); ctx.fill();
-            ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
+            // Face
+            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
+            // Tail
+            ctx.strokeStyle = '#f97316'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-15, -8); ctx.quadraticCurveTo(-30, -20, -25, -30); ctx.stroke();
         }
 
-        function drawCuteDog(ctx, verb, armAngle, time) {
+        function drawCuteDog(ctx, verb, time) {
             ctx.fillStyle = '#a16207';
             ctx.beginPath(); ctx.ellipse(0, -10, 20, 15, 0, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath(); ctx.arc(0, -28, 15, 0, Math.PI * 2); ctx.fill();
+            // Floppy ears
             ctx.fillStyle = '#713f12';
             ctx.beginPath(); ctx.ellipse(-14, -25, 6, 12, 0.3, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath(); ctx.ellipse(14, -25, 6, 12, -0.3, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = '#000';
-            ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
+            // Eyes
+            ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
         }
 
         function drawCuteBird(ctx, verb, time) {
             ctx.fillStyle = '#06b6d4';
             ctx.beginPath(); ctx.arc(0, -20, 14, 0, Math.PI * 2); ctx.fill();
+            // Flapping Wing
             ctx.fillStyle = '#0891b2';
-            ctx.beginPath();
-            ctx.ellipse(-12, -20 + Math.sin(time * 10) * 8, 10, 5, 0.5, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.ellipse(-12, -20 + Math.sin(time * 12) * 8, 10, 5, 0.5, 0, Math.PI * 2); ctx.fill();
+            // Beak
             ctx.fillStyle = '#f59e0b';
             ctx.beginPath(); ctx.moveTo(10, -20); ctx.lineTo(18, -17); ctx.lineTo(10, -14); ctx.fill();
         }
