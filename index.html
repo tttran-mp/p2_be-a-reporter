@@ -175,8 +175,13 @@
                             Location: Playground
                         </span>
                     </div>
-                    <div class="text-slate-400 text-xs font-mono hidden sm:block">
-                        CAM 01 - HD BROADCAST
+                    <div class="flex items-center gap-2">
+                        <button onclick="saveSceneImage()" title="Save Picture" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5 border border-emerald-400 shadow">
+                            <i class="fa-solid fa-download"></i> <span>Save Picture</span>
+                        </button>
+                        <div class="text-slate-400 text-xs font-mono hidden md:block">
+                            CAM 01 - HD BROADCAST
+                        </div>
                     </div>
                 </div>
 
@@ -276,9 +281,13 @@
             </div>
 
             <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                <button onclick="saveSceneImage()" 
+                    class="w-full sm:w-1/2 py-3.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i> Save Picture
+                </button>
                 <button onclick="closeSuccessModalAndPlayAgain()" 
-                    class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
-                    <i class="fa-solid font-black fa-play"></i> Play Another Scene!
+                    class="w-full sm:w-1/2 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
+                    <i class="fa-solid font-black fa-play"></i> Play Another!
                 </button>
             </div>
         </div>
@@ -1236,6 +1245,52 @@
             modal.classList.add('opacity-0', 'pointer-events-none');
 
             generateScene();
+        }
+
+        function saveSceneImage() {
+            const originalCanvas = document.getElementById('scene-canvas');
+            if (!originalCanvas) return;
+
+            // Offscreen canvas to synthesize high quality news picture snapshot
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = originalCanvas.width;
+            tempCanvas.height = originalCanvas.height;
+            const ctx = tempCanvas.getContext('2d');
+
+            // 1. Draw current animated scene frame
+            ctx.drawImage(originalCanvas, 0, 0);
+
+            // 2. Burn in LKTV News Header Overlay
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(0, 0, tempCanvas.width, 38);
+
+            ctx.fillStyle = '#facc15';
+            ctx.font = 'bold 20px Fredoka, sans-serif';
+            ctx.fillText('LKTV NEWS', 15, 26);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 13px Fredoka, sans-serif';
+            ctx.fillText(`LOCATION: ${currentLocation.name.toUpperCase()}  |  REPORTER SNAPSHOT`, 140, 25);
+
+            // 3. Burn in Bottom Ticker Banner
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+            ctx.fillRect(0, tempCanvas.height - 42, tempCanvas.width, 42);
+
+            ctx.fillStyle = '#facc15';
+            ctx.font = 'bold 15px Fredoka, sans-serif';
+            const charName = selectedCharacter || 'Reporter';
+            ctx.fillText(`BREAKING NEWS: ${charName} in action at the ${currentLocation.name}!`, 15, tempCanvas.height - 16);
+
+            // 4. Download file PNG
+            const safeCharName = charName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            const safeLocName = currentLocation.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            
+            const link = document.createElement('a');
+            link.download = `LKTV_News_${safeCharName}_${safeLocName}.png`;
+            link.href = tempCanvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
