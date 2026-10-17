@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lok Kids TV (LKTV) - Present Continuous Tense Game</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap');
+        
+        body {
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            background-color: #f0fdf4;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .tv-frame {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .news-ticker {
+            animation: ticker 25s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .bounce-gentle {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Pulsing RECORD LIVE light */
+        .live-dot {
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 pb-12 flex flex-col justify-between">
+
+    <!-- LKTV Top Header & Banner -->
+    <header class="bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 text-white shadow-lg border-b-4 border-yellow-300 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-yellow-400 text-red-700 p-2.5 rounded-2xl shadow-inner font-extrabold text-2xl tracking-wider flex items-center gap-2 transform -rotate-2">
+                    <i class="fa-solid font-black fa-tv text-2xl"></i> LKTV
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide flex items-center gap-2">
+                        Lok Kids TV <span class="bg-red-700 text-yellow-300 text-xs px-2 py-0.5 rounded-full uppercase tracking-widest font-black border border-yellow-400">NEWS ROOM</span>
+                    </h1>
+                    <p class="text-xs md:text-sm text-yellow-100 font-medium">Grammar Reporter Game: Present Continuous Tense</p>
+                </div>
+            </div>
+
+            <!-- Studio Live Indicator -->
+            <div class="flex items-center gap-2 bg-black/30 backdrop-blur px-3 py-1.5 rounded-full border border-white/20">
+                <span class="w-3 h-3 rounded-full bg-red-500 live-dot inline-block"></span>
+                <span class="text-xs font-bold uppercase tracking-widest text-red-200">ON AIR</span>
+            </div>
+        </div>
+
+        <!-- News Ticker -->
+        <div class="bg-slate-900 text-yellow-400 text-xs md:text-sm py-1 overflow-hidden whitespace-nowrap border-t border-red-700 flex items-center">
+            <div class="bg-yellow-400 text-slate-900 font-bold px-3 py-0.5 z-10 shrink-0 uppercase text-xs flex items-center gap-1">
+                <i class="fa-solid font-black fa-bolt"></i> BREAKING
+            </div>
+            <div class="news-ticker inline-block pl-4 font-mono font-semibold">
+                Welcome Jr. Reporters! Learn Present Continuous Tense with LKTV News! | Subject + is/are + Verb-ing + in/on + Location | Stay tuned for Breaking News!
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 mt-6 flex-grow w-full space-y-8">
+
+        <!-- STEP 1: Input Collection Card -->
+        <section id="step-1-card" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-indigo-200 relative overflow-hidden transition-all duration-300">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-100 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-md">
+                    1
+                </div>
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-indigo-950">Step 1: Choose Your News Stars & Action!</h2>
+                    <p class="text-xs md:text-sm text-slate-500">Select characters and an action verb to send our news camera to school!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Character Selection -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2">
+                        <i class="fa-solid font-black fa-user-astronaut text-indigo-500"></i> 1. Select or Type Character Name(s)
+                    </label>
+                    
+                    <div class="flex flex-wrap gap-2" id="character-chips">
+                        <!-- Dynamic Character Chips -->
+                    </div>
+
+                    <div class="pt-2">
+                        <input type="text" id="custom-character-input" 
+                            placeholder="Or type character name(s)..." 
+                            class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:outline-none text-slate-700 font-medium text-sm transition-all shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Action Verb Selection -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2">
+                        <i class="fa-solid font-black fa-person-running text-rose-500"></i> 2. Select Action Verb
+                    </label>
+
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar" id="verb-chips">
+                        <!-- Dynamic Verb Chips -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-xs text-slate-500 italic flex items-center gap-1">
+                    <i class="fa-solid font-black fa-circle-info text-amber-500"></i> A school location will be chosen randomly by our LKTV director!
+                </div>
+                <button id="generate-scene-btn" onclick="generateScene()" 
+                    class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-3">
+                    <i class="fa-solid font-black fa-clapperboard text-yellow-300"></i> Generate News Scene!
+                </button>
+            </div>
+        </section>
+
+        <!-- STEP 2 & STEP 3: Scene Generation & Headline Challenge -->
+        <section id="step-2-section" class="space-y-6 hidden transition-all duration-500">
+            
+            <!-- LKTV Breaking News TV Display -->
+            <div class="tv-frame rounded-3xl p-4 sm:p-6 text-white border-4 border-slate-700 relative shadow-2xl">
+                <!-- TV Screen Header -->
+                <div class="flex items-center justify-between mb-3 px-2">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-red-600 text-white px-2.5 py-1 rounded-md text-xs font-black tracking-widest uppercase flex items-center gap-1.5 shadow">
+                            <i class="fa-solid font-black fa-circle text-[8px] animate-ping"></i> LKTV BREAKING NEWS
+                        </span>
+                        <span id="location-badge" class="bg-slate-800 text-yellow-300 text-xs px-3 py-1 rounded-md font-bold border border-slate-700">
+                            Location: Classroom
+                        </span>
+                    </div>
+                    <div class="text-slate-400 text-xs font-mono hidden sm:block">
+                        CAM 01 - HD BROADCAST
+                    </div>
+                </div>
+
+                <!-- Generated Scene Container (STRICT CONSTRAINT: NO TEXT INSIDE IMAGE/CANVAS) -->
+                <div class="relative rounded-2xl overflow-hidden bg-slate-900 border-2 border-slate-700 aspect-video flex items-center justify-center shadow-inner">
+                    <!-- Dynamic Interactive Scene Canvas -->
+                    <canvas id="scene-canvas" class="w-full h-full object-cover block"></canvas>
+
+                    <!-- Subtle Studio Overlay Frame (no readable text inside photo frame) -->
+                    <div class="absolute bottom-3 left-3 bg-red-600/90 backdrop-blur text-white px-3 py-1 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow">
+                        <i class="fa-solid font-black fa-video"></i> LIVE FEED
+                    </div>
+                </div>
+
+                <!-- TV Footer Bar -->
+                <div class="mt-4 bg-slate-800/80 rounded-xl p-3 border border-slate-700 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid font-black fa-microphone text-rose-400"></i>
+                        <span>Reporter Challenge: What is happening in the picture?</span>
+                    </div>
+                    <div class="text-yellow-400 font-medium">
+                        Target Structure: [Name(s)] + [is/are] + [Verb-ing] + [in/on] + [the] + [Location]
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Headline Challenge Input & Feedback -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-amber-200 space-y-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-md">
+                        2
+                    </div>
+                    <div>
+                        <h2 class="text-xl md:text-2xl font-bold text-slate-800">Write the News Headline!</h2>
+                        <p class="text-xs md:text-sm text-slate-500">Type a sentence in Present Continuous Tense describing the scene above.</p>
+                    </div>
+                </div>
+
+                <!-- Headline Form -->
+                <div class="space-y-4">
+                    <div class="relative">
+                        <textarea id="headline-input" rows="2" 
+                            placeholder="Type headline here... (e.g. Leo is dancing in the music room.)" 
+                            class="w-full p-4 text-base md:text-lg font-medium text-slate-800 bg-slate-50 rounded-2xl border-2 border-slate-300 focus:border-amber-500 focus:bg-white focus:outline-none transition-all resize-none shadow-inner"></textarea>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <button onclick="resetSceneSelection()" class="text-slate-500 hover:text-slate-700 text-sm font-semibold flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-100 transition">
+                            <i class="fa-solid font-black fa-rotate-left"></i> Pick Different Action
+                        </button>
+
+                        <button id="submit-headline-btn" onclick="evaluateHeadline()" 
+                            class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid font-black fa-paper-plane"></i> Broadcast Headline!
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feedback & Hint Box -->
+                <div id="feedback-container" class="hidden rounded-2xl p-4 transition-all border-2">
+                    <div class="flex items-start gap-3">
+                        <div id="feedback-icon" class="text-2xl shrink-0 mt-0.5"></div>
+                        <div class="space-y-1">
+                            <h4 id="feedback-title" class="font-bold text-base"></h4>
+                            <p id="feedback-text" class="text-sm font-medium"></p>
+                            <p id="feedback-prompt" class="text-xs font-bold text-slate-600 mt-2"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SUCCESS CELEBRATION MODAL -->
+    <div id="success-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border-4 border-yellow-400 text-center space-y-6 transform scale-90 transition-transform duration-300" id="modal-content">
+            
+            <div class="relative">
+                <div class="w-20 h-20 bg-yellow-100 text-yellow-500 rounded-full flex items-center justify-center mx-auto text-4xl shadow-inner bounce-gentle border-2 border-yellow-300">
+                    <i class="fa-solid font-black fa-trophy"></i>
+                </div>
+                <div class="absolute top-0 right-1/4 text-2xl text-amber-400 animate-ping">✨</div>
+            </div>
+
+            <div>
+                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Star Reporter Award!</span>
+                <h3 class="text-2xl font-black text-slate-800 mt-2">Extra Extraordinary News!</h3>
+                <p id="modal-headline-display" class="text-slate-600 font-medium text-sm mt-2 italic bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    "Leo is dancing in the music room."
+                </p>
+            </div>
+
+            <!-- Success Image Asset Badge -->
+            <div class="relative rounded-2xl overflow-hidden border-2 border-amber-300 shadow bg-gradient-to-br from-amber-50 to-orange-100 p-2 flex flex-col items-center justify-center">
+                <img src="https://placehold.co/400x250/e0f2fe/0369a1?text=LKTV+Breaking+News+Success!" 
+                     alt="Success Broadcast" 
+                     id="success-modal-asset"
+                     onerror="this.src='https://placehold.co/400x250/fef3c7/b45309?text=LKTV+Star+Reporter!'" 
+                     class="rounded-xl w-full h-40 object-cover border border-amber-200 shadow-inner">
+                <div class="text-[11px] font-bold text-amber-800 mt-1 flex items-center gap-1">
+                    <i class="fa-solid font-black fa-award text-yellow-600"></i> LKTV Official Headline Verified
+                </div>
+            </div>
+
+            <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                <button onclick="closeSuccessModalAndPlayAgain()" 
+                    class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-base rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
+                    <i class="fa-solid font-black fa-play"></i> Play Another Scene!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-12 text-center text-xs text-slate-400 py-4 border-t border-slate-200">
+        <p>© Lok Kids TV (LKTV) Educational Media • Present Continuous Tense Interactive Learning</p>
+    </footer>
+
+    <script>
+        // Presets
+        const CHARACTERS = [
+            "Leo", "Felix", "The boys", "Anna", "Bella", "The girls", "A cat", "A dog", "Some birds"
+        ];
+
+        const VERBS = [
+            { base: "sing", ing: "singing" },
+            { base: "eat", ing: "eating" },
+            { base: "chat", ing: "chatting" },
+            { base: "talk", ing: "talking" },
+            { base: "run", ing: "running" },
+            { base: "read", ing: "reading" },
+            { base: "paint", ing: "painting" },
+            { base: "dance", ing: "dancing" },
+            { base: "jump", ing: "jumping" },
+            { base: "play", ing: "playing" },
+            { base: "walk", ing: "walking" },
+            { base: "fly", ing: "flying" },
+            { base: "sleep", ing: "sleeping" }
+        ];
+
+        // School Locations and Preposition Rules
+        // Rule: Use 'in' for rooms/places, 'on' for floors
+        const LOCATIONS = [
+            { name: "playground", prep: "in", type: "place", file: "playground.jpg", bgHue: "#38bdf8" },
+            { name: "hall", prep: "in", type: "room", file: "hall.jfif", bgHue: "#f59e0b" },
+            { name: "classroom", prep: "in", type: "room", file: "classroom.jfif", bgHue: "#10b981" },
+            { name: "library", prep: "in", type: "room", file: "library.jfif", bgHue: "#8b5cf6" },
+            { name: "1/F", prep: "on", type: "floor", file: "first floor.jpg", bgHue: "#ec4899", altNames: ["1/f", "first floor", "1st floor"] },
+            { name: "2/F", prep: "on", type: "floor", file: "second floor.jpg", bgHue: "#f97316", altNames: ["2/f", "second floor", "2nd floor"] },
+            { name: "3/F", prep: "on", type: "floor", file: "third floor.jpeg", bgHue: "#06b6d4", altNames: ["3/f", "third floor", "3rd floor"] },
+            { name: "computer room", prep: "in", type: "room", file: "computer room.jpg", bgHue: "#3b82f6" },
+            { name: "music room", prep: "in", type: "room", file: "music room.jpg", bgHue: "#a855f7" }
+        ];
+
+        // Current Active Game State
+        let selectedCharacter = "Leo";
+        let selectedVerb = VERBS[0]; // {base: 'sing', ing: 'singing'}
+        let currentLocation = LOCATIONS[0];
+        let animationFrameId = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initCharacterChips();
+            initVerbChips();
+        });
+
+        // Initialize Character Chip UI
+        function initCharacterChips() {
+            const container = document.getElementById('character-chips');
+            container.innerHTML = '';
+
+            CHARACTERS.forEach((char, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all flex items-center gap-1.5 ${
+                    char === selectedCharacter 
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-md scale-105' 
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-indigo-300'
+                }`;
+                button.innerHTML = `<i class="fa-solid font-black ${getCharacterIcon(char)}"></i> ${char}`;
+                button.onclick = () => {
+                    selectedCharacter = char;
+                    document.getElementById('custom-character-input').value = '';
+                    updateCharacterChipStyles();
+                };
+                container.appendChild(button);
+            });
+
+            // Listen to custom character input
+            const customInput = document.getElementById('custom-character-input');
+            customInput.addEventListener('input', (e) => {
+                if (e.target.value.trim() !== '') {
+                    selectedCharacter = e.target.value.trim();
+                    clearCharacterChipHighlights();
+                } else {
+                    selectedCharacter = CHARACTERS[0];
+                    updateCharacterChipStyles();
+                }
+            });
+        }
+
+        function getCharacterIcon(char) {
+            const c = char.toLowerCase();
+            if (c.includes('cat')) return 'fa-cat';
+            if (c.includes('dog')) return 'fa-dog';
+            if (c.includes('bird')) return 'fa-crow';
+            if (c.includes('boy')) return 'fa-children';
+            if (c.includes('girl')) return 'fa-user-nurse';
+            return 'fa-user';
+        }
+
+        function updateCharacterChipStyles() {
+            const container = document.getElementById('character-chips');
+            Array.from(container.children).forEach((btn) => {
+                const charName = btn.textContent.trim();
+                if (charName === selectedCharacter) {
+                    btn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all flex items-center gap-1.5 bg-indigo-600 text-white border-indigo-600 shadow-md scale-105';
+                } else {
+                    btn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all flex items-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:border-indigo-300';
+                }
+            });
+        }
+
+        function clearCharacterChipHighlights() {
+            const container = document.getElementById('character-chips');
+            Array.from(container.children).forEach((btn) => {
+                btn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all flex items-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:border-indigo-300';
+            });
+        }
+
+        // Initialize Verb Chip UI
+        function initVerbChips() {
+            const container = document.getElementById('verb-chips');
+            container.innerHTML = '';
+
+            VERBS.forEach((verbObj) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `p-2 rounded-xl text-xs font-bold border-2 transition-all text-center uppercase tracking-wider ${
+                    verbObj.base === selectedVerb.base 
+                        ? 'bg-rose-500 text-white border-rose-500 shadow-md' 
+                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-rose-300'
+                }`;
+                button.textContent = verbObj.base;
+                button.onclick = () => {
+                    selectedVerb = verbObj;
+                    updateVerbChipStyles();
+                };
+                container.appendChild(button);
+            });
+        }
+
+        function updateVerbChipStyles() {
+            const container = document.getElementById('verb-chips');
+            Array.from(container.children).forEach((btn) => {
+                if (btn.textContent.trim() === selectedVerb.base) {
+                    btn.className = 'p-2 rounded-xl text-xs font-bold border-2 transition-all text-center uppercase tracking-wider bg-rose-500 text-white border-rose-500 shadow-md';
+                } else {
+                    btn.className = 'p-2 rounded-xl text-xs font-bold border-2 transition-all text-center uppercase tracking-wider bg-slate-50 text-slate-700 border-slate-200 hover:border-rose-300';
+                }
+            });
+        }
+
+        function generateScene() {
+            if (!selectedCharacter || selectedCharacter.trim() === '') {
+                selectedCharacter = "Leo";
+            }
+
+            // Randomly select school location from LOCATIONS
+            const randomIndex = Math.floor(Math.random() * LOCATIONS.length);
+            currentLocation = LOCATIONS[randomIndex];
+
+            // Update UI Location Badge
+            document.getElementById('location-badge').textContent = `Location: ${currentLocation.name.toUpperCase()}`;
+
+            // Show Step 2 Section
+            const step2Sec = document.getElementById('step-2-section');
+            step2Sec.classList.remove('hidden');
+            step2Sec.scrollIntoView({ behavior: 'smooth' });
+
+            // Hide previous feedback
+            document.getElementById('feedback-container').classList.add('hidden');
+            document.getElementById('headline-input').value = '';
+
+            // Render Dynamic Interactive Canvas Illustration
+            renderCanvasScene();
+        }
+
+        function resetSceneSelection() {
+            document.getElementById('step-1-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderCanvasScene() {
+            const canvas = document.getElementById('scene-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Responsive resolution setup
+            canvas.width = 800;
+            canvas.height = 450;
+
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+
+            let startTime = Date.now();
+
+            function animate() {
+                const elapsedTime = (Date.now() - startTime) / 1000;
+
+                // Clear Canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 1. Draw School Background Environment based on currentLocation
+                drawSchoolBackground(ctx, canvas.width, canvas.height, currentLocation);
+
+                // 2. Draw Character Performing Action in Foreground
+                drawCharacterAction(ctx, canvas.width, canvas.height, selectedCharacter, selectedVerb.base, elapsedTime);
+
+                // CRITICAL CONSTRAINT: DO NOT DRAW ANY VISIBLE TEXT OR WORDS INSIDE THE CANVAS IMAGE!
+
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // Draw Vibrant School Background Graphics
+        function drawSchoolBackground(ctx, w, h, location) {
+            // Gradient Sky / Wall
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+            bgGrad.addColorStop(0, location.bgHue);
+            bgGrad.addColorStop(0.7, '#f8fafc');
+            bgGrad.addColorStop(1, '#e2e8f0');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Floor Line
+            ctx.fillStyle = '#cbd5e1';
+            ctx.fillRect(0, h * 0.75, w, h * 0.25);
+
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(0, h * 0.75);
+            ctx.lineTo(w, h * 0.75);
+            ctx.stroke();
+
+            // Background Decorative Elements depending on Location Type
+            ctx.save();
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            
+            if (location.name === 'classroom') {
+                // Draw Blackboard outline
+                ctx.fillStyle = '#1e3a8a';
+                ctx.fillRect(w * 0.15, h * 0.1, w * 0.7, h * 0.45);
+                ctx.strokeStyle = '#92400e';
+                ctx.lineWidth = 8;
+                ctx.strokeRect(w * 0.15, h * 0.1, w * 0.7, h * 0.45);
+            } else if (location.name === 'library') {
+                // Bookshelves
+                ctx.fillStyle = '#b45309';
+                ctx.fillRect(w * 0.05, h * 0.15, w * 0.2, h * 0.6);
+                ctx.fillRect(w * 0.75, h * 0.15, w * 0.2, h * 0.6);
+            } else if (location.name === 'music room') {
+                // Piano Silhouette & Guitars
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(w * 0.08, h * 0.35, w * 0.25, h * 0.4);
+            } else if (location.name === 'computer room') {
+                // Monitor Desks
+                ctx.fillStyle = '#334155';
+                ctx.fillRect(w * 0.05, h * 0.55, w * 0.25, h * 0.2);
+                ctx.fillRect(w * 0.7, h * 0.55, w * 0.25, h * 0.2);
+            } else if (location.type === 'floor') {
+                // Corridor Windows and Pillar
+                ctx.fillStyle = '#fef08a';
+                ctx.fillRect(w * 0.1, h * 0.1, w * 0.3, h * 0.45);
+                ctx.fillRect(w * 0.6, h * 0.1, w * 0.3, h * 0.45);
+            } else {
+                // General Playground / Hall Trees or Props
+                ctx.fillStyle = '#22c55e';
+                ctx.beginPath();
+                ctx.arc(w * 0.1, h * 0.4, 80, 0, Math.PI * 2);
+                ctx.arc(w * 0.9, h * 0.4, 80, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        // Draw Cute 2D Animated Character Performing Action
+        function drawCharacterAction(ctx, w, h, charName, verbBase, time) {
+            ctx.save();
+
+            const isGroup = isPluralSubject(charName);
+            const count = isGroup ? 2 : 1;
+
+            for (let i = 0; i < count; i++) {
+                let x = count === 1 ? w * 0.5 : (i === 0 ? w * 0.38 : w * 0.62);
+                let y = h * 0.68;
+                let bounceY = 0;
+                let armAngle = 0;
+
+                // Action-specific dynamic animation offsets
+                if (verbBase === 'jump') {
+                    bounceY = Math.abs(Math.sin(time * 6 + i)) * 35;
+                } else if (verbBase === 'dance') {
+                    bounceY = Math.sin(time * 8 + i) * 12;
+                    armAngle = Math.sin(time * 8 + i) * 0.6;
+                } else if (verbBase === 'run' || verbBase === 'walk') {
+                    x += Math.sin(time * 3 + i) * 30;
+                    armAngle = Math.cos(time * 6) * 0.8;
+                } else if (verbBase === 'fly') {
+                    bounceY = 40 + Math.sin(time * 4) * 20;
+                } else if (verbBase === 'sleep') {
+                    bounceY = -15; // Lying down
+                }
+
+                ctx.save();
+                ctx.translate(x, y - bounceY);
+
+                // Determine cartoon style (Animal vs Human)
+                const cLower = charName.toLowerCase();
+
+                if (cLower.includes('cat')) {
+                    drawCuteCat(ctx, verbBase, armAngle, time);
+                } else if (cLower.includes('dog')) {
+                    drawCuteDog(ctx, verbBase, armAngle, time);
+                } else if (cLower.includes('bird')) {
+                    drawCuteBird(ctx, verbBase, time);
+                } else {
+                    // Kids / Human characters
+                    const kidColor = i === 0 ? '#3b82f6' : '#ec4899';
+                    drawCuteKid(ctx, verbBase, armAngle, time, kidColor);
+                }
+
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        // 2D Cute Kid Graphic
+        function drawCuteKid(ctx, verb, armAngle, time, shirtColor) {
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.15)';
+            ctx.beginPath();
+            ctx.ellipse(0, 25, 25, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Legs
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'round';
+
+            if (verb === 'run') {
+                ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(-18, 20); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(6, 0); ctx.lineTo(18, 20); ctx.stroke();
+            } else {
+                ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(-8, 22); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(8, 0); ctx.lineTo(8, 22); ctx.stroke();
+            }
+
+            // Body / Shirt
+            ctx.fillStyle = shirtColor;
+            ctx.beginPath();
+            ctx.roundRect(-16, -30, 32, 32, 8);
+            ctx.fill();
+
+            // Arms
+            ctx.strokeStyle = shirtColor;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(-16, -22);
+            ctx.lineTo(-28, -22 + Math.sin(time * 6) * 15);
+            ctx.moveTo(16, -22);
+            ctx.lineTo(28, -22 - Math.sin(time * 6) * 15);
+            ctx.stroke();
+
+            // Head
+            ctx.fillStyle = '#ffedd5';
+            ctx.beginPath();
+            ctx.arc(0, -50, 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Eyes & Smile
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.arc(-6, -52, 2.5, 0, Math.PI * 2);
+            ctx.arc(6, -52, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = '#0f172a';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(0, -46, 6, 0.1, Math.PI - 0.1);
+            ctx.stroke();
+
+            // Hair
+            ctx.fillStyle = '#b45309';
+            ctx.beginPath();
+            ctx.arc(0, -56, 21, Math.PI, Math.PI * 2);
+            ctx.fill();
+
+            // Prop for Action (e.g., Microphone for sing, Book for read)
+            if (verb === 'sing') {
+                ctx.fillStyle = '#64748b';
+                ctx.fillRect(20, -45, 4, 12);
+                ctx.fillStyle = '#f59e0b';
+                ctx.beginPath(); ctx.arc(22, -48, 5, 0, Math.PI * 2); ctx.fill();
+            } else if (verb === 'read') {
+                ctx.fillStyle = '#ef4444';
+                ctx.fillRect(-12, -20, 24, 16);
+            }
+        }
+
+        // Cute Animal Drawing Helpers
+        function drawCuteCat(ctx, verb, armAngle, time) {
+            ctx.fillStyle = '#f97316';
+            ctx.beginPath(); ctx.ellipse(0, -10, 18, 14, 0, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(0, -28, 14, 0, Math.PI * 2); ctx.fill();
+            // Ears
+            ctx.beginPath(); ctx.moveTo(-10, -36); ctx.lineTo(-16, -48); ctx.lineTo(-4, -38); ctx.fill();
+            ctx.beginPath(); ctx.moveTo(10, -36); ctx.lineTo(16, -48); ctx.lineTo(4, -38); ctx.fill();
+            // Face
+            ctx.fillStyle = '#000';
+            ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
+        }
+
+        function drawCuteDog(ctx, verb, armAngle, time) {
+            ctx.fillStyle = '#a16207';
+            ctx.beginPath(); ctx.ellipse(0, -10, 20, 15, 0, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(0, -28, 15, 0, Math.PI * 2); ctx.fill();
+            // Floppy ears
+            ctx.fillStyle = '#713f12';
+            ctx.beginPath(); ctx.ellipse(-14, -25, 6, 12, 0.3, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.ellipse(14, -25, 6, 12, -0.3, 0, Math.PI * 2); ctx.fill();
+            // Face
+            ctx.fillStyle = '#000';
+            ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
+        }
+
+        function drawCuteBird(ctx, verb, time) {
+            ctx.fillStyle = '#06b6d4';
+            ctx.beginPath(); ctx.arc(0, -20, 14, 0, Math.PI * 2); ctx.fill();
+            // Wings
+            ctx.fillStyle = '#0891b2';
+            ctx.beginPath();
+            ctx.ellipse(-12, -20 + Math.sin(time * 10) * 8, 10, 5, 0.5, 0, Math.PI * 2);
+            ctx.fill();
+            // Beak
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath(); ctx.moveTo(10, -20); ctx.lineTo(18, -17); ctx.lineTo(10, -14); ctx.fill();
+        }
+
+        
+        // Check if subject is plural
+        function isPluralSubject(name) {
+            const n = name.trim().toLowerCase();
+            if (n === 'the boys' || n === 'the girls' || n === 'some birds') return true;
+            if (n.includes(' and ') || n.endsWith('s')) return true;
+            return false;
+        }
+
+        // STEP 3: Grammar Evaluation Function
+        function evaluateHeadline() {
+            const userInput = document.getElementById('headline-input').value.trim();
+
+            if (!userInput) {
+                showFeedback(false, "Please write a sentence first!", "Try typing your news headline in the box!");
+                return;
+            }
+
+            // Normalize user sentence for checking
+            const cleanText = userInput.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+            const tokens = cleanText.split(" ");
+
+            // Expected Parameters
+            const expectedChar = selectedCharacter.trim().toLowerCase();
+            const isPlural = isPluralSubject(selectedCharacter);
+            const expectedAux = isPlural ? "are" : "is";
+            const expectedVerbIng = selectedVerb.ing.toLowerCase();
+            const expectedBaseVerb = selectedVerb.base.toLowerCase();
+            const expectedLocation = currentLocation.name.toLowerCase();
+            const expectedPrep = currentLocation.prep.toLowerCase(); // 'in' or 'on'
+
+            // Evaluation Checks (Order of Grammar Guidance)
+
+            // 1. Subject / Name Verification
+            const charTokens = expectedChar.split(" ");
+            const hasCharName = charTokens.every(token => cleanText.includes(token));
+            if (!hasCharName) {
+                // Check if user spelled name incorrectly
+                showFeedback(false, "Check the character name!", `Make sure to start your headline with "${selectedCharacter}".`);
+                return;
+            }
+
+            // 2. Subject-Verb Agreement Check (is / are)
+            const hasIs = tokens.includes("is");
+            const hasAre = tokens.includes("are");
+
+            if (!hasIs && !hasAre) {
+                showFeedback(false, "Missing action helper word!", "Check if you need 'is' (for 1 person) or 'are' (for 2+ people).");
+                return;
+            }
+
+            if (isPlural && hasIs && !hasAre) {
+                showFeedback(false, "Grammar Check!", "Check if you need 'is' (for 1 person) or 'are' (for 2+ people).");
+                return;
+            }
+
+            if (!isPlural && hasAre && !hasIs) {
+                showFeedback(false, "Grammar Check!", "Check if you need 'is' (for 1 person) or 'are' (for 2+ people).");
+                return;
+            }
+
+            // 3. Present Continuous Verb Form Check (-ing)
+            const hasCorrectVerbIng = tokens.includes(expectedVerbIng);
+
+            if (!hasCorrectVerbIng) {
+                // Check if base verb was used without -ing
+                if (tokens.includes(expectedBaseVerb)) {
+                    showFeedback(false, "Action word form!", "Remember to add '-ing' to the action word!");
+                    return;
+                }
+
+                // Check specific -ing spelling rules
+                // Rule: Drop 'e' (e.g., dance -> danceing instead of dancing)
+                if (expectedBaseVerb.endsWith('e') && cleanText.includes(expectedBaseVerb + "ing")) {
+                    showFeedback(false, "Spelling Rule!", "Drop the 'e'.");
+                    return;
+                }
+
+                // Rule: Double consonant (e.g., run -> runing instead of running, chat -> chating instead of chatting)
+                if ((expectedBaseVerb === 'run' || expectedBaseVerb === 'chat') && cleanText.includes(expectedBaseVerb + "ing")) {
+                    showFeedback(false, "Spelling Rule!", "Double the consonant.");
+                    return;
+                }
+
+                // General -ing error
+                showFeedback(false, "Spelling Check!", `Check the spelling of "${expectedVerbIng}".`);
+                return;
+            }
+
+            // 4. Location Inclusion Check
+            let locationMatched = cleanText.includes(expectedLocation);
+            if (!locationMatched && currentLocation.altNames) {
+                locationMatched = currentLocation.altNames.some(alt => cleanText.includes(alt));
+            }
+
+            if (!locationMatched) {
+                showFeedback(false, "Missing place!", "Where is the action happening?");
+                return;
+            }
+
+            // 5. Preposition Verification ('in' vs 'on')
+            // Rule: 'in' for rooms/places, 'on' for floors
+            const userUsedIn = tokens.includes("in");
+            const userUsedOn = tokens.includes("on");
+
+            if (expectedPrep === "in" && !userUsedIn) {
+                showFeedback(false, "Preposition Check!", "Use 'in' for rooms and 'on' for floors.");
+                return;
+            }
+
+            if (expectedPrep === "on" && !userUsedOn) {
+                showFeedback(false, "Preposition Check!", "Use 'in' for rooms and 'on' for floors.");
+                return;
+            }
+
+            // 6. Article 'the' before Location
+            const hasThe = tokens.includes("the");
+            if (!hasThe) {
+                showFeedback(false, "Article Check!", "Add 'the' before the place.");
+                return;
+            }
+
+            // ALL CHECKS PASSED SUCCESSFULLY!
+            showSuccessModal(userInput);
+        }
+
+        function showFeedback(isSuccess, title, hintText) {
+            const container = document.getElementById('feedback-container');
+            const icon = document.getElementById('feedback-icon');
+            const titleEl = document.getElementById('feedback-title');
+            const textEl = document.getElementById('feedback-text');
+            const promptEl = document.getElementById('feedback-prompt');
+
+            container.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-300', 'bg-amber-50', 'border-amber-300');
+
+            if (isSuccess) {
+                container.classList.add('bg-emerald-50', 'border-emerald-300');
+                icon.innerHTML = '<i class="fa-solid font-black fa-circle-check text-emerald-500"></i>';
+                titleEl.className = 'font-bold text-base text-emerald-800';
+                textEl.className = 'text-sm font-medium text-emerald-700';
+                promptEl.textContent = "";
+            } else {
+                container.classList.add('bg-amber-50', 'border-amber-300');
+                icon.innerHTML = '<i class="fa-solid font-black fa-lightbulb text-amber-500"></i>';
+                titleEl.className = 'font-bold text-base text-amber-900';
+                textEl.className = 'text-sm font-medium text-amber-800';
+                promptEl.textContent = "Try writing your headline again!";
+            }
+
+            titleEl.textContent = title;
+            textEl.textContent = hintText;
+        }
+
+        // Trigger Victory Success Modal
+        function showSuccessModal(headline) {
+            document.getElementById('modal-headline-display').textContent = `"${headline}"`;
+            
+            // Set Success Asset image
+            const modalAsset = document.getElementById('success-modal-asset');
+            modalAsset.src = "https://placehold.co/400x250/10b981/ffffff?text=LKTV+Verified+Headline!";
+
+            const modal = document.getElementById('success-modal');
+            const content = document.getElementById('modal-content');
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+
+            // Trigger Confetti Celebration
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        function closeSuccessModalAndPlayAgain() {
+            const modal = document.getElementById('success-modal');
+            const content = document.getElementById('modal-content');
+
+            content.classList.remove('scale-100');
+            content.classList.add('scale-90');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+
+            // Reset for next game round
+            generateScene();
+        }
+    </script>
+</body>
+</html>
