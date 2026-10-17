@@ -43,7 +43,6 @@
             50% { transform: translateY(-8px); }
         }
 
-        /* Pulsing RECORD LIVE light */
         .live-dot {
             animation: pulse-red 1.5s infinite;
         }
@@ -72,7 +71,6 @@
 </head>
 <body class="min-h-screen text-slate-800 pb-12 flex flex-col justify-between">
 
-    <!-- LKTV Top Header & Banner -->
     <header class="bg-gradient-to-r from-red-600 via-rose-500 to-amber-500 text-white shadow-lg border-b-4 border-yellow-300 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -107,7 +105,6 @@
 
     <main class="max-w-5xl mx-auto px-4 mt-6 flex-grow w-full space-y-8">
 
-        <!-- STEP 1: Input Collection Card -->
         <section id="step-1-card" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-indigo-200 relative overflow-hidden transition-all duration-300">
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-100 rounded-full blur-2xl pointer-events-none"></div>
 
@@ -154,7 +151,7 @@
             <!-- Action Button -->
             <div class="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="text-xs text-slate-500 italic flex items-center gap-1">
-                    <i class="fa-solid font-black fa-circle-info text-amber-500"></i> A school location will be chosen randomly by our LKTV director!
+                    <i class="fa-solid font-black fa-circle-info text-amber-500"></i> A school location picture will be chosen randomly by our LKTV director!
                 </div>
                 <button id="generate-scene-btn" onclick="generateScene()" 
                     class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-3">
@@ -163,10 +160,8 @@
             </div>
         </section>
 
-        <!-- STEP 2 & STEP 3: Scene Generation & Headline Challenge -->
         <section id="step-2-section" class="space-y-6 hidden transition-all duration-500">
             
-            <!-- LKTV Breaking News TV Display -->
             <div class="tv-frame rounded-3xl p-4 sm:p-6 text-white border-4 border-slate-700 relative shadow-2xl">
                 <!-- TV Screen Header -->
                 <div class="flex items-center justify-between mb-3 px-2">
@@ -183,12 +178,12 @@
                     </div>
                 </div>
 
-                <!-- Generated Scene Container (STRICT CONSTRAINT: NO TEXT INSIDE IMAGE/CANVAS) -->
+                <!-- Generated Scene Container -->
                 <div class="relative rounded-2xl overflow-hidden bg-slate-900 border-2 border-slate-700 aspect-video flex items-center justify-center shadow-inner">
                     <!-- Dynamic Interactive Scene Canvas -->
                     <canvas id="scene-canvas" class="w-full h-full object-cover block"></canvas>
 
-                    <!-- Subtle Studio Overlay Frame (no readable text inside photo frame) -->
+                    <!-- Studio Overlay Frame -->
                     <div class="absolute bottom-3 left-3 bg-red-600/90 backdrop-blur text-white px-3 py-1 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow">
                         <i class="fa-solid font-black fa-video"></i> LIVE FEED
                     </div>
@@ -206,7 +201,6 @@
                 </div>
             </div>
 
-            <!-- STEP 3: Headline Challenge Input & Feedback -->
             <div class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-amber-200 space-y-6">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-lg shadow-md">
@@ -214,7 +208,7 @@
                     </div>
                     <div>
                         <h2 class="text-xl md:text-2xl font-bold text-slate-800">Write the News Headline!</h2>
-                        <p class="text-xs md:text-sm text-slate-500">Type a sentence in Present Continuous Tense describing the scene above.</p>
+                        <p class="text-xs md:text-sm text-slate-500">Type a sentence in Present Continuous Tense describing the picture above.</p>
                     </div>
                 </div>
 
@@ -254,7 +248,6 @@
 
     </main>
 
-    <!-- SUCCESS CELEBRATION MODAL -->
     <div id="success-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border-4 border-yellow-400 text-center space-y-6 transform scale-90 transition-transform duration-300" id="modal-content">
             
@@ -275,7 +268,7 @@
 
             <!-- Success Image Asset Badge -->
             <div class="relative rounded-2xl overflow-hidden border-2 border-amber-300 shadow bg-gradient-to-br from-amber-50 to-orange-100 p-2 flex flex-col items-center justify-center">
-                <img src="https://placehold.co/400x250/e0f2fe/0369a1?text=LKTV+Breaking+News+Success!" 
+                <img src="https://placehold.co/400x250/10b981/ffffff?text=LKTV+Verified+Headline!" 
                      alt="Success Broadcast" 
                      id="success-modal-asset"
                      onerror="this.src='https://placehold.co/400x250/fef3c7/b45309?text=LKTV+Star+Reporter!'" 
@@ -300,7 +293,6 @@
     </footer>
 
     <script>
-        // Presets
         const CHARACTERS = [
             "Leo", "Felix", "The boys", "Anna", "Bella", "The girls", "A cat", "A dog", "Some birds"
         ];
@@ -321,8 +313,7 @@
             { base: "sleep", ing: "sleeping" }
         ];
 
-        // School Locations and Preposition Rules
-        // Rule: Use 'in' for rooms/places, 'on' for floors
+        // School Locations & Assigned Image Files
         const LOCATIONS = [
             { name: "playground", prep: "in", type: "place", file: "playground.jpg", bgHue: "#38bdf8" },
             { name: "hall", prep: "in", type: "room", file: "hall.jfif", bgHue: "#f59e0b" },
@@ -335,23 +326,24 @@
             { name: "music room", prep: "in", type: "room", file: "music room.jpg", bgHue: "#a855f7" }
         ];
 
-        // Current Active Game State
+        // Current Game State
         let selectedCharacter = "Leo";
-        let selectedVerb = VERBS[0]; // {base: 'sing', ing: 'singing'}
+        let selectedVerb = VERBS[0];
         let currentLocation = LOCATIONS[0];
         let animationFrameId = null;
+        let bgImgElement = null;
+        let bgImgLoaded = false;
 
         window.addEventListener('DOMContentLoaded', () => {
             initCharacterChips();
             initVerbChips();
         });
 
-        // Initialize Character Chip UI
         function initCharacterChips() {
             const container = document.getElementById('character-chips');
             container.innerHTML = '';
 
-            CHARACTERS.forEach((char, index) => {
+            CHARACTERS.forEach((char) => {
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = `px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border-2 transition-all flex items-center gap-1.5 ${
@@ -368,7 +360,6 @@
                 container.appendChild(button);
             });
 
-            // Listen to custom character input
             const customInput = document.getElementById('custom-character-input');
             customInput.addEventListener('input', (e) => {
                 if (e.target.value.trim() !== '') {
@@ -410,7 +401,6 @@
             });
         }
 
-        // Initialize Verb Chip UI
         function initVerbChips() {
             const container = document.getElementById('verb-chips');
             container.innerHTML = '';
@@ -448,23 +438,32 @@
                 selectedCharacter = "Leo";
             }
 
-            // Randomly select school location from LOCATIONS
+            // Pick random location from LOCATIONS
             const randomIndex = Math.floor(Math.random() * LOCATIONS.length);
             currentLocation = LOCATIONS[randomIndex];
 
             // Update UI Location Badge
             document.getElementById('location-badge').textContent = `Location: ${currentLocation.name.toUpperCase()}`;
 
+            // Preload the target location image file
+            bgImgLoaded = false;
+            bgImgElement = new Image();
+            bgImgElement.onload = () => {
+                bgImgLoaded = true;
+            };
+            bgImgElement.onerror = () => {
+                bgImgLoaded = false;
+            };
+            bgImgElement.src = currentLocation.file;
+
             // Show Step 2 Section
             const step2Sec = document.getElementById('step-2-section');
             step2Sec.classList.remove('hidden');
             step2Sec.scrollIntoView({ behavior: 'smooth' });
 
-            // Hide previous feedback
             document.getElementById('feedback-container').classList.add('hidden');
             document.getElementById('headline-input').value = '';
 
-            // Render Dynamic Interactive Canvas Illustration
             renderCanvasScene();
         }
 
@@ -476,7 +475,6 @@
             const canvas = document.getElementById('scene-canvas');
             const ctx = canvas.getContext('2d');
 
-            // Responsive resolution setup
             canvas.width = 800;
             canvas.height = 450;
 
@@ -489,16 +487,20 @@
             function animate() {
                 const elapsedTime = (Date.now() - startTime) / 1000;
 
-                // Clear Canvas
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                // 1. Draw School Background Environment based on currentLocation
-                drawSchoolBackground(ctx, canvas.width, canvas.height, currentLocation);
+                // 1. Draw Selected Location Image (or fallback vector artwork)
+                if (bgImgLoaded && bgImgElement && bgImgElement.complete) {
+                    ctx.drawImage(bgImgElement, 0, 0, canvas.width, canvas.height);
+                    // Light overlay so animated foreground characters pop out clearly
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                } else {
+                    drawSchoolBackground(ctx, canvas.width, canvas.height, currentLocation);
+                }
 
                 // 2. Draw Character Performing Action in Foreground
                 drawCharacterAction(ctx, canvas.width, canvas.height, selectedCharacter, selectedVerb.base, elapsedTime);
-
-                // CRITICAL CONSTRAINT: DO NOT DRAW ANY VISIBLE TEXT OR WORDS INSIDE THE CANVAS IMAGE!
 
                 animationFrameId = requestAnimationFrame(animate);
             }
@@ -506,9 +508,7 @@
             animate();
         }
 
-        // Draw Vibrant School Background Graphics
         function drawSchoolBackground(ctx, w, h, location) {
-            // Gradient Sky / Wall
             const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
             bgGrad.addColorStop(0, location.bgHue);
             bgGrad.addColorStop(0.7, '#f8fafc');
@@ -516,7 +516,6 @@
             ctx.fillStyle = bgGrad;
             ctx.fillRect(0, 0, w, h);
 
-            // Floor Line
             ctx.fillStyle = '#cbd5e1';
             ctx.fillRect(0, h * 0.75, w, h * 0.25);
 
@@ -526,49 +525,8 @@
             ctx.moveTo(0, h * 0.75);
             ctx.lineTo(w, h * 0.75);
             ctx.stroke();
-
-            // Background Decorative Elements depending on Location Type
-            ctx.save();
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-            
-            if (location.name === 'classroom') {
-                // Draw Blackboard outline
-                ctx.fillStyle = '#1e3a8a';
-                ctx.fillRect(w * 0.15, h * 0.1, w * 0.7, h * 0.45);
-                ctx.strokeStyle = '#92400e';
-                ctx.lineWidth = 8;
-                ctx.strokeRect(w * 0.15, h * 0.1, w * 0.7, h * 0.45);
-            } else if (location.name === 'library') {
-                // Bookshelves
-                ctx.fillStyle = '#b45309';
-                ctx.fillRect(w * 0.05, h * 0.15, w * 0.2, h * 0.6);
-                ctx.fillRect(w * 0.75, h * 0.15, w * 0.2, h * 0.6);
-            } else if (location.name === 'music room') {
-                // Piano Silhouette & Guitars
-                ctx.fillStyle = '#0f172a';
-                ctx.fillRect(w * 0.08, h * 0.35, w * 0.25, h * 0.4);
-            } else if (location.name === 'computer room') {
-                // Monitor Desks
-                ctx.fillStyle = '#334155';
-                ctx.fillRect(w * 0.05, h * 0.55, w * 0.25, h * 0.2);
-                ctx.fillRect(w * 0.7, h * 0.55, w * 0.25, h * 0.2);
-            } else if (location.type === 'floor') {
-                // Corridor Windows and Pillar
-                ctx.fillStyle = '#fef08a';
-                ctx.fillRect(w * 0.1, h * 0.1, w * 0.3, h * 0.45);
-                ctx.fillRect(w * 0.6, h * 0.1, w * 0.3, h * 0.45);
-            } else {
-                // General Playground / Hall Trees or Props
-                ctx.fillStyle = '#22c55e';
-                ctx.beginPath();
-                ctx.arc(w * 0.1, h * 0.4, 80, 0, Math.PI * 2);
-                ctx.arc(w * 0.9, h * 0.4, 80, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            ctx.restore();
         }
 
-        // Draw Cute 2D Animated Character Performing Action
         function drawCharacterAction(ctx, w, h, charName, verbBase, time) {
             ctx.save();
 
@@ -577,11 +535,10 @@
 
             for (let i = 0; i < count; i++) {
                 let x = count === 1 ? w * 0.5 : (i === 0 ? w * 0.38 : w * 0.62);
-                let y = h * 0.68;
+                let y = h * 0.72;
                 let bounceY = 0;
                 let armAngle = 0;
 
-                // Action-specific dynamic animation offsets
                 if (verbBase === 'jump') {
                     bounceY = Math.abs(Math.sin(time * 6 + i)) * 35;
                 } else if (verbBase === 'dance') {
@@ -593,13 +550,12 @@
                 } else if (verbBase === 'fly') {
                     bounceY = 40 + Math.sin(time * 4) * 20;
                 } else if (verbBase === 'sleep') {
-                    bounceY = -15; // Lying down
+                    bounceY = -15;
                 }
 
                 ctx.save();
                 ctx.translate(x, y - bounceY);
 
-                // Determine cartoon style (Animal vs Human)
                 const cLower = charName.toLowerCase();
 
                 if (cLower.includes('cat')) {
@@ -609,7 +565,6 @@
                 } else if (cLower.includes('bird')) {
                     drawCuteBird(ctx, verbBase, time);
                 } else {
-                    // Kids / Human characters
                     const kidColor = i === 0 ? '#3b82f6' : '#ec4899';
                     drawCuteKid(ctx, verbBase, armAngle, time, kidColor);
                 }
@@ -620,10 +575,9 @@
             ctx.restore();
         }
 
-        // 2D Cute Kid Graphic
         function drawCuteKid(ctx, verb, armAngle, time, shirtColor) {
             // Shadow
-            ctx.fillStyle = 'rgba(0,0,0,0.15)';
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
             ctx.beginPath();
             ctx.ellipse(0, 25, 25, 8, 0, 0, Math.PI * 2);
             ctx.fill();
@@ -682,7 +636,6 @@
             ctx.arc(0, -56, 21, Math.PI, Math.PI * 2);
             ctx.fill();
 
-            // Prop for Action (e.g., Microphone for sing, Book for read)
             if (verb === 'sing') {
                 ctx.fillStyle = '#64748b';
                 ctx.fillRect(20, -45, 4, 12);
@@ -694,15 +647,12 @@
             }
         }
 
-        // Cute Animal Drawing Helpers
         function drawCuteCat(ctx, verb, armAngle, time) {
             ctx.fillStyle = '#f97316';
             ctx.beginPath(); ctx.ellipse(0, -10, 18, 14, 0, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath(); ctx.arc(0, -28, 14, 0, Math.PI * 2); ctx.fill();
-            // Ears
             ctx.beginPath(); ctx.moveTo(-10, -36); ctx.lineTo(-16, -48); ctx.lineTo(-4, -38); ctx.fill();
             ctx.beginPath(); ctx.moveTo(10, -36); ctx.lineTo(16, -48); ctx.lineTo(4, -38); ctx.fill();
-            // Face
             ctx.fillStyle = '#000';
             ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
         }
@@ -711,11 +661,9 @@
             ctx.fillStyle = '#a16207';
             ctx.beginPath(); ctx.ellipse(0, -10, 20, 15, 0, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath(); ctx.arc(0, -28, 15, 0, Math.PI * 2); ctx.fill();
-            // Floppy ears
             ctx.fillStyle = '#713f12';
             ctx.beginPath(); ctx.ellipse(-14, -25, 6, 12, 0.3, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath(); ctx.ellipse(14, -25, 6, 12, -0.3, 0, Math.PI * 2); ctx.fill();
-            // Face
             ctx.fillStyle = '#000';
             ctx.beginPath(); ctx.arc(-5, -28, 2, 0, Math.PI * 2); ctx.arc(5, -28, 2, 0, Math.PI * 2); ctx.fill();
         }
@@ -723,18 +671,14 @@
         function drawCuteBird(ctx, verb, time) {
             ctx.fillStyle = '#06b6d4';
             ctx.beginPath(); ctx.arc(0, -20, 14, 0, Math.PI * 2); ctx.fill();
-            // Wings
             ctx.fillStyle = '#0891b2';
             ctx.beginPath();
             ctx.ellipse(-12, -20 + Math.sin(time * 10) * 8, 10, 5, 0.5, 0, Math.PI * 2);
             ctx.fill();
-            // Beak
             ctx.fillStyle = '#f59e0b';
             ctx.beginPath(); ctx.moveTo(10, -20); ctx.lineTo(18, -17); ctx.lineTo(10, -14); ctx.fill();
         }
 
-        
-        // Check if subject is plural
         function isPluralSubject(name) {
             const n = name.trim().toLowerCase();
             if (n === 'the boys' || n === 'the girls' || n === 'some birds') return true;
@@ -742,35 +686,28 @@
             return false;
         }
 
-        // STEP 3: Grammar Evaluation Function
         function evaluateHeadline() {
             const userInput = document.getElementById('headline-input').value.trim();
 
             if (!userInput) {
-                showFeedback(false, "Please write a sentence first!", "Try typing your news headline in the box!");
+                showFeedback(false, "Write a headline!", "Please write a sentence first!");
                 return;
             }
 
-            // Normalize user sentence for checking
             const cleanText = userInput.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
             const tokens = cleanText.split(" ");
 
-            // Expected Parameters
             const expectedChar = selectedCharacter.trim().toLowerCase();
             const isPlural = isPluralSubject(selectedCharacter);
-            const expectedAux = isPlural ? "are" : "is";
             const expectedVerbIng = selectedVerb.ing.toLowerCase();
             const expectedBaseVerb = selectedVerb.base.toLowerCase();
             const expectedLocation = currentLocation.name.toLowerCase();
             const expectedPrep = currentLocation.prep.toLowerCase(); // 'in' or 'on'
 
-            // Evaluation Checks (Order of Grammar Guidance)
-
-            // 1. Subject / Name Verification
+            // 1. Character / Subject Check
             const charTokens = expectedChar.split(" ");
             const hasCharName = charTokens.every(token => cleanText.includes(token));
             if (!hasCharName) {
-                // Check if user spelled name incorrectly
                 showFeedback(false, "Check the character name!", `Make sure to start your headline with "${selectedCharacter}".`);
                 return;
             }
@@ -780,45 +717,40 @@
             const hasAre = tokens.includes("are");
 
             if (!hasIs && !hasAre) {
-                showFeedback(false, "Missing action helper word!", "Check if you need 'is' (for 1 person) or 'are' (for 2+ people).");
-                return;
-            }
-
-            if (isPlural && hasIs && !hasAre) {
                 showFeedback(false, "Grammar Check!", "Check if you need 'is' (for 1 person) or 'are' (for 2+ people).");
                 return;
             }
 
-            if (!isPlural && hasAre && !hasIs) {
+            if (isPlural && !hasAre) {
+                showFeedback(false, "Grammar Check!", "Check if you need 'is' (for 1 person) or 'are' (for 2+ people).");
+                return;
+            }
+
+            if (!isPlural && !hasIs) {
                 showFeedback(false, "Grammar Check!", "Check if you need 'is' (for 1 person) or 'are' (for 2+ people).");
                 return;
             }
 
             // 3. Present Continuous Verb Form Check (-ing)
-            const hasCorrectVerbIng = tokens.includes(expectedVerbIng);
+            if (tokens.includes(expectedBaseVerb)) {
+                showFeedback(false, "Action Word Check!", "Remember to add '-ing' to the action word!");
+                return;
+            }
 
-            if (!hasCorrectVerbIng) {
-                // Check if base verb was used without -ing
-                if (tokens.includes(expectedBaseVerb)) {
-                    showFeedback(false, "Action word form!", "Remember to add '-ing' to the action word!");
-                    return;
-                }
-
-                // Check specific -ing spelling rules
-                // Rule: Drop 'e' (e.g., dance -> danceing instead of dancing)
+            if (!tokens.includes(expectedVerbIng)) {
+                // Drop 'e' rule
                 if (expectedBaseVerb.endsWith('e') && cleanText.includes(expectedBaseVerb + "ing")) {
                     showFeedback(false, "Spelling Rule!", "Drop the 'e'.");
                     return;
                 }
 
-                // Rule: Double consonant (e.g., run -> runing instead of running, chat -> chating instead of chatting)
+                // Double consonant rule
                 if ((expectedBaseVerb === 'run' || expectedBaseVerb === 'chat') && cleanText.includes(expectedBaseVerb + "ing")) {
                     showFeedback(false, "Spelling Rule!", "Double the consonant.");
                     return;
                 }
 
-                // General -ing error
-                showFeedback(false, "Spelling Check!", `Check the spelling of "${expectedVerbIng}".`);
+                showFeedback(false, "Spelling Check!", `The correct spelling is "${expectedVerbIng}".`);
                 return;
             }
 
@@ -834,7 +766,6 @@
             }
 
             // 5. Preposition Verification ('in' vs 'on')
-            // Rule: 'in' for rooms/places, 'on' for floors
             const userUsedIn = tokens.includes("in");
             const userUsedOn = tokens.includes("on");
 
@@ -848,7 +779,7 @@
                 return;
             }
 
-            // 6. Article 'the' before Location
+            // 6. Article 'the' Check
             const hasThe = tokens.includes("the");
             if (!hasThe) {
                 showFeedback(false, "Article Check!", "Add 'the' before the place.");
@@ -886,13 +817,8 @@
             textEl.textContent = hintText;
         }
 
-        // Trigger Victory Success Modal
         function showSuccessModal(headline) {
             document.getElementById('modal-headline-display').textContent = `"${headline}"`;
-            
-            // Set Success Asset image
-            const modalAsset = document.getElementById('success-modal-asset');
-            modalAsset.src = "https://placehold.co/400x250/10b981/ffffff?text=LKTV+Verified+Headline!";
 
             const modal = document.getElementById('success-modal');
             const content = document.getElementById('modal-content');
@@ -901,11 +827,10 @@
             content.classList.remove('scale-90');
             content.classList.add('scale-100');
 
-            // Trigger Confetti Celebration
             if (typeof confetti === 'function') {
                 confetti({
-                    particleCount: 100,
-                    spread: 70,
+                    particleCount: 120,
+                    spread: 80,
                     origin: { y: 0.6 }
                 });
             }
@@ -919,7 +844,6 @@
             content.classList.add('scale-90');
             modal.classList.add('opacity-0', 'pointer-events-none');
 
-            // Reset for next game round
             generateScene();
         }
     </script>
