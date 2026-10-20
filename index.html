@@ -321,16 +321,29 @@
 
         // School Locations & Settings
         const LOCATIONS = [
-            { name: "playground", prep: "in", type: "place", keyObject: "Basketball hoop & court lines" },
-            { name: "hall", prep: "in", type: "room", keyObject: "Stage curtain & auditorium seats" },
-            { name: "classroom", prep: "in", type: "room", keyObject: "Whiteboard & student desks" },
-            { name: "library", prep: "in", type: "room", keyObject: "Bookcases & colorful storybooks" },
-            { name: "1/F", prep: "on", type: "floor", altNames: ["1/f", "first floor", "1st floor"], keyObject: "Large '1/F' wall sign & balcony" },
-            { name: "2/F", prep: "on", type: "floor", altNames: ["2/f", "second floor", "2nd floor"], keyObject: "Large '2/F' wall sign & balcony" },
-            { name: "3/F", prep: "on", type: "floor", altNames: ["3/f", "third floor", "3rd floor"], keyObject: "Large '3/F' wall sign & balcony" },
-            { name: "computer room", prep: "in", type: "room", keyObject: "Computer monitors & glowing screens" },
-            { name: "music room", prep: "in", type: "room", keyObject: "Upright piano, guitars & music notes" }
+            { name: "playground", prep: "in", type: "place", keyObject: "Basketball hoop & court lines", image: "playground.jpg" },
+            { name: "hall", prep: "in", type: "room", keyObject: "Stage curtain & auditorium seats", image: "hall.jfif" },
+            { name: "classroom", prep: "in", type: "room", keyObject: "Whiteboard & student desks", image: "classroom.jfif" },
+            { name: "library", prep: "in", type: "room", keyObject: "Bookcases & colorful storybooks", image: "library.jfif" },
+            { name: "1/F", prep: "on", type: "floor", altNames: ["1/f", "first floor", "1st floor"], keyObject: "Large '1/F' wall sign & balcony", image: "first floor.jpg" },
+            { name: "2/F", prep: "on", type: "floor", altNames: ["2/f", "second floor", "2nd floor"], keyObject: "Large '2/F' wall sign & balcony", image: "second floor.jpg" },
+            { name: "3/F", prep: "on", type: "floor", altNames: ["3/f", "third floor", "3rd floor"], keyObject: "Large '3/F' wall sign & balcony", image: "third floor.jpeg" },
+            { name: "computer room", prep: "in", type: "room", keyObject: "Computer monitors & glowing screens", image: "computer room.jpg" },
+            { name: "music room", prep: "in", type: "room", keyObject: "Upright piano, guitars & music notes", image: "music room.jpg" }
         ];
+
+        // Image Cache for Location Backgrounds
+        const locationImageCache = {};
+
+        function getLocationImage(src) {
+            if (!src) return null;
+            if (!locationImageCache[src]) {
+                const img = new Image();
+                img.src = src;
+                locationImageCache[src] = img;
+            }
+            return locationImageCache[src];
+        }
 
         // Current Game State
         let selectedCharacter = "Leo";
@@ -482,8 +495,8 @@
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                // 1. Draw Vector Background with Location Key Objects
-                drawLocationVectorBackground(ctx, canvas.width, canvas.height, currentLocation.name);
+                // 1. Draw Background (Custom Image with Vector Fallback)
+                drawLocationBackground(ctx, canvas.width, canvas.height, currentLocation);
 
                 // 2. Draw Characters Performing Action with Props
                 drawCharactersInForeground(ctx, canvas.width, canvas.height, selectedCharacter, selectedVerb.base, elapsedTime);
@@ -492,6 +505,15 @@
             }
 
             animate();
+        }
+
+        function drawLocationBackground(ctx, w, h, location) {
+            const bgImg = getLocationImage(location.image);
+            if (bgImg && bgImg.complete && bgImg.naturalWidth > 0) {
+                ctx.drawImage(bgImg, 0, 0, w, h);
+            } else {
+                drawLocationVectorBackground(ctx, w, h, location.name);
+            }
         }
 
         function drawLocationVectorBackground(ctx, w, h, locName) {
